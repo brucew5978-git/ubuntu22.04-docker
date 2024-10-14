@@ -46,11 +46,20 @@ RUN apt update && \
     apt install -y x11-apps  # Installs basic X11 applications like xclock and xeyes && \
     apt install -y firefox   # Example: Install Firefox
 
+# Installing tmux
+RUN apt install tmux
+
+# RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
+#     apt-get install gz-harmonic
+
 # Install VNC services
 # RUN apt-get update && \
 #     apt-get install -y tightvncserver xfce4 xfce4-goodies && \
 #     tightvncserver :1
 
+
+# RUN source /opt/ros/humble/setup.bash
 
 # Set the default command to bash
 CMD ["/bin/bash"]

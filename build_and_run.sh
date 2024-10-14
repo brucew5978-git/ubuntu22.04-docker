@@ -2,7 +2,8 @@
 
 # Set variables
 IMAGE_NAME="ubuntu-22.04-nonroot"
-DOCKERFILE="dockerfile-ubuntu-22.04.dockerfile"
+# DOCKERFILE="dockerfile-ubuntu-22.04.dockerfile"
+DOCKERFILE="dockerfile-ubuntu-20.04-ros1.dockerfile"
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
@@ -27,6 +28,7 @@ echo "Running the Docker container..."
 # docker run -it $IMAGE_NAME
 docker run -e DISPLAY=host.docker.internal:0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
+    --mount type=bind,source=/dev,target=/dev \
     -it $IMAGE_NAME
 
 
