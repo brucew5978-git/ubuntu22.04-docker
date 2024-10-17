@@ -74,13 +74,53 @@ RUN apt-get install -y python3-rosdep
 # Installing catkin
 RUN apt install -y python3-catkin-tools
 
+
+# Installing dependencies for orbslam, including opencv 3.2
+RUN sudo apt update && \
+    sudo apt install -y build-essential cmake git pkg-config libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+    libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev gfortran openexr \
+    libatlas-base-dev python3-dev python3-numpy libtbb2 libtbb-dev libdc1394-22-dev
+
+
+RUN cd ~ && git clone https://github.com/opencv/opencv.git && \
+    cd opencv && \
+    git checkout 3.2.0 && \
+
+    cd ~/opencv && \
+    mkdir build && \ 
+    cd build 
+
+RUN cd ~/opencv/build && \ 
+
+    apt-get install build-essential g++ && \    
+    apt-get install -y libc6-dev && \
+
+    apt-get install --reinstall build-essential && \
+
+    cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_opencv_videoio=OFF -D BUILD_opencv_python3=OFF -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
+
+    make -j$(nproc) && \
+
+    make install && \
+    ldconfig
+
+    # for cmake, need to include ".." to specify running this command in the /opencv source directory
+    # can use "pkg-config --modversion opencv" to test the version of opencv built from source
+
+
+
+# Cloning and building orbslam_2 repo
+RUN cd /home && git clone https://github.com/raulmur/ORB_SLAM2.git
+    # cd ORB_SLAM2 && \
+    # chmod +x build.sh && \
+    # ./build.sh
+
+
 # Install VNC services
 # RUN apt-get update && \
 #     apt-get install -y tightvncserver xfce4 xfce4-goodies && \
 #     tightvncserver :1
 
-
-# RUN source /opt/ros/humble/setup.bash
 
 # Set the default command to bash
 CMD ["/bin/bash"]
