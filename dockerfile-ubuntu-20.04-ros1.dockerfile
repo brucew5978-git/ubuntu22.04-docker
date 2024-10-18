@@ -91,29 +91,38 @@ RUN cd ~ && git clone https://github.com/opencv/opencv.git && \
     cd build 
 
 RUN cd ~/opencv/build && \ 
-
     apt-get install build-essential g++ && \    
     apt-get install -y libc6-dev && \
-
     apt-get install --reinstall build-essential && \
-
     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_opencv_videoio=OFF -D BUILD_opencv_python3=OFF -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
-
     make -j$(nproc) && \
-
     make install && \
     ldconfig
 
     # for cmake, need to include ".." to specify running this command in the /opencv source directory
     # can use "pkg-config --modversion opencv" to test the version of opencv built from source
 
+# Building Eigen
+RUN cd /home && mkdir eigen_build && \
+    cd eigen_build && git clone https://gitlab.com/libeigen/eigen.git && \
+    cd eigen && git checkout 3.1 && \
+    cd /home/eigen_build && \
+    cmake eigen && \
+    make install
 
+# Custom pangolin installation
+RUN cd /home/ && git clone https://github.com/brucew5978-git/Pangolin_orbslam2.git && \
+    cd Pangolin_orbslam2 && \
+    apt install -y libepoxy-dev && \
+    ./scripts/install_prerequisites.sh --dry-run recommended && \
+    cmake -B build && \
+    cmake --build build
 
 # Cloning and building orbslam_2 repo
-RUN cd /home && git clone https://github.com/raulmur/ORB_SLAM2.git
-    # cd ORB_SLAM2 && \
-    # chmod +x build.sh && \
-    # ./build.sh
+RUN cd /home && git clone https://github.com/brucew5978-git/ORB_SLAM2_bug_fixes.git && \
+    cd ORB_SLAM2_bug_fixes && \
+    chmod +x build.sh && \
+    ./build.sh
 
 
 # Install VNC services
