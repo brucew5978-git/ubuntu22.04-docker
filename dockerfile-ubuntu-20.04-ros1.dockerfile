@@ -90,6 +90,8 @@ RUN cd ~ && git clone https://github.com/opencv/opencv.git && \
     mkdir build && \ 
     cd build 
 
+    #git checkout 3.2.0 && \
+
 RUN cd ~/opencv/build && \ 
     apt-get install build-essential g++ && \    
     apt-get install -y libc6-dev && \
@@ -124,6 +126,18 @@ RUN cd /home && git clone https://github.com/brucew5978-git/ORB_SLAM2_bug_fixes.
     chmod +x build.sh && \
     ./build.sh
 
+
+# Dependencies for build_ros
+RUN apt-get remove -y python2 python2.7 && apt-get remove -y libpython2-stdlib libpython2.7-minimal libpython2.7-stdlib python2-minimal python2.7-minimal && \
+    apt-get remove -y python-is-python2 && \
+    apt-get purge -y python2 python2.7 libpython2-stdlib libpython2.7-minimal libpython2.7-stdlib python2-minimal python2.7-minimal python-is-python2 && \
+    find /opt/ros/noetic/ -name "*.pyc" -exec rm -f {} \; && \
+
+    apt-get install -y python3-roslib python3-rospkg && \
+    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/ORB_SLAM2_bug_fixes/Examples/ROS/ORB_SLAM2
+
+
+RUN apt-get install -y ros-noetic-tf ros-noetic-image-transport
 
 # Install VNC services
 # RUN apt-get update && \
