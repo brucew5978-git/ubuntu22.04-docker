@@ -134,10 +134,12 @@ RUN apt-get remove -y python2 python2.7 && apt-get remove -y libpython2-stdlib l
     find /opt/ros/noetic/ -name "*.pyc" -exec rm -f {} \; && \
 
     apt-get install -y python3-roslib python3-rospkg && \
-    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/ORB_SLAM2_bug_fixes/Examples/ROS/ORB_SLAM2
+    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/ORB_SLAM2_bug_fixes/Examples/ROS/ORB_SLAM2 && \
+    
+    apt-get install -y ros-noetic-tf ros-noetic-image-transport
 
-
-RUN apt-get install -y ros-noetic-tf ros-noetic-image-transport
+# Export needed for x11
+RUN export DISPLAY=:0
 
 # Install VNC services
 # RUN apt-get update && \

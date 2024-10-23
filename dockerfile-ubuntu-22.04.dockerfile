@@ -25,12 +25,6 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install ros2 humble
-# RUN apt install software-properties-common && add-apt-repository universe \
-#     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
-#     apt update \
-#     apt install ros-dashing-desktop
-
 # Add ROS 2 GPG key and repository
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
@@ -38,8 +32,8 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
 # Update and install ROS 2 Humble
 RUN apt-get update && apt-get install -y ros-humble-desktop && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+    rm -rf /var/lib/apt/lists/* && \
+    apt update && apt install -y python3-colcon-common-extensions
 
 # Installing GUI applications to be interfacing with XQuartz
 RUN apt update && \
@@ -49,14 +43,9 @@ RUN apt update && \
 # Installing tmux
 RUN apt install tmux
 
-# RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
-#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
-#     apt-get install gz-harmonic
-
-# Install VNC services
-# RUN apt-get update && \
-#     apt-get install -y tightvncserver xfce4 xfce4-goodies && \
-#     tightvncserver :1
+# Install gazebo and turtlebot
+RUN apt update && apt install -y ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros && \
+    apt install -y ros-humble-turtlebot3*
 
 
 # RUN source /opt/ros/humble/setup.bash

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set variables
-IMAGE_NAME="ubuntu-20.04"
-DOCKERFILE="dockerfile-ubuntu-20.04-ros1.dockerfile"
+IMAGE_NAME="ubuntu-22.04"
+DOCKERFILE="dockerfile-ubuntu-22.04.dockerfile"
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
@@ -26,7 +26,7 @@ echo "Docker image built successfully: $IMAGE_NAME"
 echo "Running the Docker container..."
 
 # docker run -it $IMAGE_NAME
-docker run -e DISPLAY=host.docker.internal:0 \
+docker run -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v /home/noveria/localization_datasets:/home/localization_datasets \
     --mount type=bind,source=/dev,target=/dev \
@@ -34,6 +34,8 @@ docker run -e DISPLAY=host.docker.internal:0 \
 
     # For X11, mounting socket so desktop can be ported from container to outside (mac only)
     # -v commands regards as porting folders/sockets between container and machine
+
+    # For mac, use DISPLAY=host.docker.internal:0, else use 
 
 
 # Optional: Cleanup - Uncomment to remove the image after exit
