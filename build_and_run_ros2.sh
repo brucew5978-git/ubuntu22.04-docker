@@ -35,7 +35,7 @@ docker run -e DISPLAY=$DISPLAY \
     # For X11, mounting socket so desktop can be ported from container to outside (mac only)
     # -v commands regards as porting folders/sockets between container and machine
 
-    # For mac, use DISPLAY=host.docker.internal:0, else use 
+    # For mac, use DISPLAY=host.docker.internal:0, else use $DISPLAY
 
 
 # Optional: Cleanup - Uncomment to remove the image after exit

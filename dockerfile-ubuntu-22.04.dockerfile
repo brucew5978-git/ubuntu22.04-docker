@@ -48,7 +48,7 @@ RUN apt update && apt install -y ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ro
     apt install -y ros-humble-turtlebot3*
 
 
-# RUN source /opt/ros/humble/setup.bash
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc 
 
 # Set the default command to bash
 CMD ["/bin/bash"]
