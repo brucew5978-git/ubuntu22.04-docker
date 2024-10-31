@@ -26,7 +26,7 @@ echo "Docker image built successfully: $IMAGE_NAME"
 echo "Running the Docker container..."
 
 # docker run -it $IMAGE_NAME
-docker run -e DISPLAY=host.docker.internal:0 \
+docker run -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v /home/noveria/localization_datasets:/home/localization_datasets \
     --mount type=bind,source=/dev,target=/dev \
@@ -34,6 +34,8 @@ docker run -e DISPLAY=host.docker.internal:0 \
 
     # For X11, mounting socket so desktop can be ported from container to outside (mac only)
     # -v commands regards as porting folders/sockets between container and machine
+
+    # For mac, use DISPLAY=host.docker.internal:0, else use $DISPLAY
 
 
 # Optional: Cleanup - Uncomment to remove the image after exit

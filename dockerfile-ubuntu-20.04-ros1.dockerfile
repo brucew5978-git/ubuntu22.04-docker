@@ -138,9 +138,6 @@ RUN apt-get remove -y python2 python2.7 && apt-get remove -y libpython2-stdlib l
     
     apt-get install -y ros-noetic-tf ros-noetic-image-transport
 
-# Export needed for x11
-RUN export DISPLAY=:0
-
 # Install VNC services
 # RUN apt-get update && \
 #     apt-get install -y tightvncserver xfce4 xfce4-goodies && \
